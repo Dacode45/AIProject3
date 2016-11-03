@@ -46,8 +46,10 @@ class ValueIterationAgent(ValueEstimationAgent):
         newValues = self.values.copy()
         for state in self.mdp.getStates():
             value = -float("inf")
-            if self.mdp.isTerminal(state):
+            if len(self.mdp.getPossibleActions(state)) == 0:
                 value = 0
+            #if self.mdp.isTerminal(state):
+            #    value = 0
             for action in self.mdp.getPossibleActions(state):
                 qValue = self.getQValue(state, action)
                 if qValue > value:
@@ -87,12 +89,13 @@ class ValueIterationAgent(ValueEstimationAgent):
       terminal state, you should return None.
     """
     "*** YOUR CODE HERE ***"
+
     bestAction = None
     bestValue = -float("inf")
     for action in self.mdp.getPossibleActions(state):
         qValue = self.getQValue(state,action)
         if qValue >= bestValue:
-            value = qValue
+            bestValue = qValue
             bestAction = action
     return bestAction
 
